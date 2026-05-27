@@ -1,9 +1,8 @@
 package org.example.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -54,6 +53,9 @@ public class CheckoutPage extends BasePage {
     @FindBy(css = ".woocommerce-order-overview__order.order")
     private WebElement orderReceivedConfirmation;
 
+    @FindBy(css="div.blockUI.blockOverlay")
+    private WebElement blockOverlay;
+
     public CheckoutPage(WebDriver webDriver) {
         super(webDriver);
     }
@@ -92,23 +94,35 @@ public class CheckoutPage extends BasePage {
     }
 
     public void acceptTerms() {
-        String script = "arguments[0].click();" +
-                "arguments[0].dispatchEvent(new Event('change', { bubbles: true }));";
-        ((JavascriptExecutor) webDriver).executeScript(script, termsCheckbox);
+
+        webDriverWait.until(
+                ExpectedConditions.elementToBeClickable(termsCheckbox)
+        );
+
+        if (!termsCheckbox.isSelected()) {
+            termsCheckbox.click();
+        }
     }
 
     public void placeOrder() {
-        try {
-            webDriverWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.blockUI.blockOverlay")));
-            Thread.sleep(1500);
-        } catch (Exception e) {}
-        try {
-            WebElement checkoutForm = webDriver.findElement(By.name("checkout"));
-            checkoutForm.submit();
-        } catch (Exception e) {
-            ((JavascriptExecutor) webDriver).executeScript("arguments[0].removeAttribute('disabled'); arguments[0].click();", placeOrderButton);
-        }
+
+        webDriverWait.until(
+                ExpectedConditions.invisibilityOf(
+                        blockOverlay
+                )
+        );
+
+        webDriverWait.until(
+                ExpectedConditions.elementToBeClickable(placeOrderButton)
+        );
+
+        Actions actions = new Actions(webDriver);
+
+        actions.moveToElement(placeOrderButton).perform();
+
+        placeOrderButton.click();
     }
+
     public boolean isOrderSuccessfullyPlaced() {
         return webDriverWait.until(ExpectedConditions.visibilityOf(orderReceivedConfirmation)).isDisplayed();
     }

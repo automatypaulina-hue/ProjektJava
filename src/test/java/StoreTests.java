@@ -20,7 +20,7 @@ public class StoreTests extends BaseTest {
                 faker.name().firstName(),
                 faker.name().lastName(),
                 faker.address().streetAddress(),
-                "97-400",
+                "00-000",
                 faker.address().city(),
                 faker.phoneNumber().cellPhone(),
                 faker.internet().emailAddress()
@@ -104,7 +104,7 @@ public class StoreTests extends BaseTest {
         cartPage.proceedToCheckout();
 
         checkoutPage.fillBillingDetails(fName, lName, street, zip, city, phone, email);
-        checkoutPage.fillCardDetails("4242424242424242", "1229", "123");
+        checkoutPage.fillCardDetails("4242424242424242", "1337", "123");
         checkoutPage.acceptTerms();
         checkoutPage.placeOrder();
 
