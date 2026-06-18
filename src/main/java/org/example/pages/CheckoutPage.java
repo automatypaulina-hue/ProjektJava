@@ -32,9 +32,6 @@ public class CheckoutPage extends BasePage {
     @FindBy(id = "terms")
     private WebElement termsCheckbox;
 
-    @FindBy(css = "label[for='terms']")
-    private WebElement termsCheckboxLabel;
-
     @FindBy(id = "place_order")
     private WebElement placeOrderButton;
 

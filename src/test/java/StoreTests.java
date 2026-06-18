@@ -1,9 +1,9 @@
 import net.datafaker.Faker;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.example.pages.*;
+import org.junit.jupiter.api.Test;  // import adnotacji testu junit @Test
+import org.junit.jupiter.params.ParameterizedTest;  // jeden test wykona sie pare razy
+import org.junit.jupiter.params.provider.MethodSource;  // zrodlo danych
+import org.junit.jupiter.params.provider.ValueSource;  // zrodlo danych junit 2 razy sie wykona (joga,pilates
+import org.example.pages.*;  // import page objectow
 
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StoreTests extends BaseTest {
-
+// extends dziedziczy z BaseTest czyli driver SetUp TearDown
     private static final Faker faker = new Faker(new Locale("pl"));
 
-    static Stream<Object[]> checkoutDataProvider() {
+    static Stream<Object[]> checkoutDataProvider() { //dostarcza dane DDT
         return Stream.generate(() -> new Object[]{
                 faker.name().firstName(),
                 faker.name().lastName(),
@@ -24,13 +24,13 @@ public class StoreTests extends BaseTest {
                 faker.address().city(),
                 faker.phoneNumber().cellPhone(),
                 faker.internet().emailAddress()
-        }).limit(2);
+        }).limit(2);  // generuje 2 zestawy danych
     }
 
 
     // PRZYPADEK 1
     @ParameterizedTest
-    @ValueSource(strings = {"Yoga", "Pilates"})
+    @ValueSource(strings = {"Yoga", "Pilates"})  //DDT
     public void testSearchProduct(String productKeyword) {
         HomePage homePage = new HomePage(driver);
         homePage.open();
@@ -75,7 +75,7 @@ public class StoreTests extends BaseTest {
 
     // PRZYPADEK 4
     @ParameterizedTest
-    @ValueSource(strings = {"NIEISTNIEJE1", "ZLYKOD2026"})
+    @ValueSource(strings = {"NIEISTNIEJE1", "ZLYKOD2026"})  //DDT
     public void testInvalidCouponCode(String invalidCode) {
         HomePage homePage = new HomePage(driver);
         CartPage cartPage = new CartPage(driver);

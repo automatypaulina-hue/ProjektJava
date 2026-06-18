@@ -7,20 +7,11 @@ import org.openqa.selenium.support.FindBy;
 
 public class CartPage extends BasePage {
 
-    @FindBy(css = "article#post-6 div.entry-content input[id^='quantity']")
+    @FindBy(css = "input[id^='quantity']")
     private WebElement quantityInput;
 
     @FindBy(name = "update_cart")
     private WebElement updateCartButton;
-
-    @FindBy(css = "article#post-6 div.entry-content a.remove")
-    private WebElement removeProductButton;
-
-    @FindBy(css = ".woocommerce-message")
-    private WebElement removalSuccessMessage;
-
-    @FindBy(css = ".cart-empty")
-    private WebElement emptyCartMessage;
 
     @FindBy(id = "coupon_code")
     private WebElement couponCodeInput;
